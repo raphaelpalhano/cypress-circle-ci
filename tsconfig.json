@@ -1,0 +1,22 @@
+{
+  "compilerOptions": {
+    "moduleResolution": "node",
+    "resolveJsonModule": true,
+    "target": "ESNext",
+    "noEmit": true,
+    "strict": false,
+    "lib": ["es2020", "DOM"],
+    "esModuleInterop": true,
+    "types": [
+      "cypress",
+      "node",
+      "fs-extra"
+    ]
+  },
+  "include": [
+    "./node_modules/cypress",
+    "./**/*.ts",
+    "cypress/support/e2e.ts",
+    "cypress/support/commands.ts"
+  ]
+}

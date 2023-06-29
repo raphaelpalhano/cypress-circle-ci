@@ -1,0 +1,12 @@
+{
+
+  "baseUrl": "https://develop.com",
+  "env":{
+      "environment": "develop",
+      "USERS": {
+          
+
+      }        
+  }
+
+}
