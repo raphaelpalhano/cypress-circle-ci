@@ -13,7 +13,7 @@ module.exports = defineConfig({
     specPattern: 'cypress/e2e/**/*.cy.{ts,tsx}',
     supportFile: 'cypress/support/e2e.ts',
 
-    setupNodeEvents(on, config) {
+    async setupNodeEvents(on, config) {
       return require('./cypress/envs/env.control')(on, config);
     },
 

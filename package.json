@@ -4,7 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "cy:prod:open": "npx cypress open --env envDefinition=prod",
+    "cy:prod:run": "npx cypress run --env envDefinition=prod"
+
   },
   "keywords": [],
   "author": "",
