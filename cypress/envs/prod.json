@@ -1,0 +1,12 @@
+{
+
+  "baseUrl": "https://parabank.parasoft.com/",
+  "env":{
+      "environment": "prod",
+      "USERS": {
+          
+
+      }        
+  }
+
+}

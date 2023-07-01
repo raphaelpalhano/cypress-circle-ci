@@ -1,0 +1,89 @@
+version: 2.1
+
+orbs:
+  cypress: cypress-io/cypress@3.1.2
+  codecov: codecov/codecov@1.2.3
+  win: circleci/windows@5.0.0
+
+executors:
+  with-chrome-and-firefox:
+    docker:
+      - image: "cypress/browsers:node16.16.0-chrome105-ff104-edge"
+    resource_class: large
+    environment:
+      PERCY_TOKEN: ""
+      CYPRESS_coverage: false
+
+commands:
+  persist_ws:
+    steps:
+      - persist_to_workspace:
+          paths:
+            - .cache/Cypress
+            - AppData/Local/Cypress/Cache
+            - project
+          root: ~/    
+
+  attach_ws:
+    steps:
+      - attach_workspace:
+          at: ~/
+
+jobs:
+  setup_project_and_cypress_linux:
+    executor: with-chrome-and-firefox
+    steps: 
+      - cypress/install:
+          package-manager: npm
+      - run:
+          name: Build CI 
+          command: npm ci
+      - run:
+          name: Print machine info 
+          command: npx cypress info
+      - run:
+          name: Cypress cache list
+          command: npx cypress cache list
+      - persist_ws
+
+  cypress_tests_linux:
+    executor: with-chrome-and-firefox
+    parameters:
+      browser:
+        type: string
+        default: chrome
+      specPattern:
+        type: string
+        default: ''
+      ciBuildId:
+        type: string
+      group:
+        type: string
+      isMobile:
+        type: boolean
+        default: false
+      isComponent:
+        type: boolean
+        default: false
+    steps: 
+      - attach_ws
+      - cypress/run-tests:
+          cypress-command: npx cypress run --spec=<<parameters.specPattern>> --browser=<<parameters.browser>> --env envDefinition=prod
+
+
+linux-workflow: &linux-workflow
+  jobs:
+    - setup_project_and_cypress_linux:
+        name: "Setup Linux"
+    - cypress_tests_linux:
+        name: "UI Tests - Chrome"
+        browser: chrome
+        specPattern: "cypress/e2e/**/*.cy.ts"
+        ciBuildId: "${CIRCLE_SHA1:0:8}"
+        group: "UI - Chrome"
+        requires:
+          - Setup Linux
+
+workflows:
+  linux:
+    <<: *linux-workflow

@@ -23,3 +23,14 @@
 //
 // -- This will overwrite an existing command --
 // Cypress.Commands.overwrite('visit', (originalFn, url, options) => { ... })
+
+Cypress.Commands.add('selectComponentWithClass', (className: string) => cy.get(`.${className}`));
+
+Cypress.Commands.add('selectComponentWithId', (idName: string) => cy.get(`#${idName}`));
+
+Cypress.Commands.add('selectElementUsingText', (selectorElement: string, text: string) =>
+  cy.get(selectorElement).filter(function () {
+    return Cypress.$(this).text().trim() === text;
+  }));
+
+Cypress.Commands.add('selectInput', (attribute: string) => cy.get(`input=[name="${attribute}"]`));
