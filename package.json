@@ -6,17 +6,17 @@
   "scripts": {
     "cy:prod:open": "npx cypress open --env envDefinition=prod",
     "cy:prod:run": "npx cypress run --env envDefinition=prod"
-
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "cypress": "^12.16.0",
-    "fs": "^0.0.1-security",
+    "@badeball/cypress-cucumber-preprocessor": "^19.2.0",
+    "@bahmutov/cypress-esbuild-preprocessor": "^2.2.0",
+    "cypress": "latest",
     "fs-extra": "^11.1.1",
     "path": "^0.12.7",
-    "typescript": "^5.1.6"
+    "typescript": "latest"
   },
   "devDependencies": {
     "@types/fs-extra": "^11.0.1",
@@ -25,5 +25,18 @@
     "eslint": "^8.43.0",
     "eslint-config-airbnb-base": "^15.0.0",
     "eslint-plugin-cypress": "^2.13.3"
+  },
+  "cypress-cucumber-preprocessor": {
+    "nonGlobalStepDefinitions": false,
+    "stepDefinitions": [
+      "cypress/e2e/steps/**/*.ts"
+    ],
+    "html": {
+      "enabled": true,
+      "outputFolder": "reports/"
+    },
+    "pretty": {
+      "enabled": true
+    }
   }
 }
